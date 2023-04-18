@@ -1,7 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
 import Products from "./components/products";
 import Product from "./components/product";
+import Cart from "./components/cart";
 
 const Stack = createStackNavigator();
 
@@ -12,8 +14,19 @@ export default function Navigate() {
         <Stack.Screen
           name="Products"
           component={Products}
-          options={{ title: "Products" }}
+          options={({ navigation }) => ({
+            title: "Products",
+            headerRight: () => (
+              <MaterialIcons
+                name="shopping-cart"
+                size={24}
+                color="black"
+                onPress={() => navigation.navigate("Cart")}
+              />
+            ),
+          })}
         />
+        <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen
           name="Product"
           component={Product}
