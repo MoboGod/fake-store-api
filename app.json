@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "fake-store-api",
-    "slug": "fake-store-api",
+    "slug": "fake-api-store",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "48244a7f-49ad-4a50-b894-775cb93f1e7c"
+      }
+    },
+    "owner": "mobogod"
   }
 }
