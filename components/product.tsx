@@ -41,7 +41,7 @@ export default function Product({
     navigation.navigate("Cart", { product });
   };
 
-  const toogleDescription = () => {
+  const toggleDescription = () => {
     setExpanded(!expanded);
   };
 
@@ -49,23 +49,17 @@ export default function Product({
     productsService.getProduct(productId).then((product) => {
       setProduct(product);
     });
-  }, []);
+  }, [productId]);
+
   return (
     <View style={styles.product}>
       <Text style={styles.title}>{product?.title}</Text>
       <Image style={styles.image} source={{ uri: product?.image }} />
       <Text style={styles.price}>Price: {product?.price}$</Text>
-      <TouchableOpacity
-        onPress={() => {
-          toogleDescription();
-        }}
-      >
-        {expanded ? (
-          <Text style={styles.expandedDescription}>{product?.description}</Text>
-        ) : (
-          <Text style={styles.collapsedDescription}>Show description</Text>
-        )}
+      <TouchableOpacity onPress={toggleDescription}>
+        <Text>{expanded ? "Hide" : "Show"} description</Text>
       </TouchableOpacity>
+      {expanded && <Text>{product?.description}</Text>}
 
       <Button
         title="Buy"

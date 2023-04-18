@@ -5,10 +5,20 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Products from "./components/products";
 import Product from "./components/product";
 import Cart from "./components/cart";
+import { IProduct } from "./interfaces/products.interface";
+import { useState } from "react";
 
 const Stack = createStackNavigator();
 
 export default function Navigate() {
+  const [cartItems, setCartItems] = useState<IProduct[]>([]);
+  const addToCart = (product: IProduct) => {
+    setCartItems([...cartItems, product]);
+  };
+  const removeFromCart = (productId: number) => {
+    setCartItems(cartItems.filter((item) => item.id !== productId));
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -28,7 +38,11 @@ export default function Navigate() {
             ),
           })}
         />
-        <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          initialParams={{ cartItems, removeFromCart }}
+        />
         <Stack.Screen
           name="Product"
           component={Product}
