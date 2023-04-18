@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
+
 import Products from "./components/products";
 import Product from "./components/product";
 import Cart from "./components/cart";
@@ -20,6 +21,7 @@ export default function Navigate() {
               <MaterialIcons
                 name="shopping-cart"
                 size={24}
+                style={{ marginRight: 16 }}
                 color="black"
                 onPress={() => navigation.navigate("Cart")}
               />

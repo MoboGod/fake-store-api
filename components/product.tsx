@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Button,
+} from "react-native";
 
 import { productsService } from "../services/productsService";
 import { IProduct } from "../interfaces/products.interface";
@@ -8,18 +15,31 @@ import { RouteProp } from "@react-navigation/native";
 
 type RootStackParamList = {
   Products: undefined;
-  ProductDetails: { productId: number };
+  ProductDetails: {
+    productId: number;
+    title: string;
+    price: number;
+    description: string;
+  };
 };
 
 type ProductDetailsProps = {
   route: RouteProp<RootStackParamList, "ProductDetails">;
 };
 
-export default function Product({ route }: ProductDetailsProps) {
-  const { productId } = route.params;
+export default function Product({
+  route,
+  navigation,
+}: ProductDetailsProps & { navigation: any }) {
+  const { productId, title, price, description } = route.params;
 
   const [expanded, setExpanded] = useState(false);
   const [product, setProduct] = useState<IProduct>();
+  const [cart, setCart] = useState<IProduct[]>([]);
+
+  const handleAddToCart = (product: IProduct) => {
+    navigation.navigate("Cart", { product });
+  };
 
   const toogleDescription = () => {
     setExpanded(!expanded);
@@ -46,6 +66,14 @@ export default function Product({ route }: ProductDetailsProps) {
           <Text style={styles.collapsedDescription}>Show description</Text>
         )}
       </TouchableOpacity>
+
+      <Button
+        title="Buy"
+        color="red"
+        onPress={() => {
+          handleAddToCart(product!);
+        }}
+      />
     </View>
   );
 }
@@ -57,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: "60%",
+    width: "100%",
     height: "60%",
   },
   title: {
@@ -76,6 +104,15 @@ const styles = StyleSheet.create({
   },
   collapsedDescription: {
     color: "#333333",
+    margin: 16,
+  },
+  buyButton: {
+    backgroundColor: "#000",
+    color: "#fff",
+    textAlign: "center",
+    width: "90%",
+    height: 40,
+    padding: 16,
     margin: 16,
   },
 });

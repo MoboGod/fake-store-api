@@ -1,11 +1,11 @@
 import axios from "axios";
 import { environment } from "../environments/dev.env";
-import { Product } from "../interfaces/products.interface";
+import { IProduct } from "../interfaces/products.interface";
 
 export const productsService = {
   getProducts: async () => {
     try {
-      const response = await axios.get<Product[]>(environment.apiUrl);
+      const response = await axios.get<IProduct[]>(environment.apiUrl);
       return response.data;
     } catch (_) {
       throw new Error("Error while fetching products");
@@ -13,7 +13,7 @@ export const productsService = {
   },
   getProduct: async (id: number) => {
     try {
-      const response = await axios.get<Product>(`${environment.apiUrl}/${id}`);
+      const response = await axios.get<IProduct>(`${environment.apiUrl}/${id}`);
       return response.data;
     } catch (_) {
       throw new Error("Error while fetching product");
