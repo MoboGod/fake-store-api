@@ -6,9 +6,10 @@ import Products from "./components/products";
 import Product from "./components/product";
 import Cart from "./components/cart";
 import { IProduct } from "./interfaces/products.interface";
-import { useState } from "react";
+import { useState, useContext, createContext } from "react";
 
 const Stack = createStackNavigator();
+const UserContext = createContext({});
 
 export default function Navigate() {
   const [cartItems, setCartItems] = useState<IProduct[]>([]);
@@ -21,34 +22,36 @@ export default function Navigate() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Products"
-          component={Products}
-          options={({ navigation }) => ({
-            title: "Products",
-            headerRight: () => (
-              <MaterialIcons
-                name="shopping-cart"
-                size={24}
-                style={{ marginRight: 16 }}
-                color="black"
-                onPress={() => navigation.navigate("Cart")}
-              />
-            ),
-          })}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={Cart}
-          initialParams={{ cartItems, removeFromCart }}
-        />
-        <Stack.Screen
-          name="Product"
-          component={Product}
-          options={{ title: "Product" }}
-        />
-      </Stack.Navigator>
+      <UserContext.Provider value={cartItems}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Products"
+            component={Products}
+            options={({ navigation }) => ({
+              title: "Products",
+              headerRight: () => (
+                <MaterialIcons
+                  name="shopping-cart"
+                  size={24}
+                  style={{ marginRight: 16 }}
+                  color="black"
+                  onPress={() => navigation.navigate("Cart")}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={Cart}
+            initialParams={{ cartItems, removeFromCart }}
+          />
+          <Stack.Screen
+            name="Product"
+            component={Product}
+            options={{ title: "Product" }}
+          />
+        </Stack.Navigator>
+      </UserContext.Provider>
     </NavigationContainer>
   );
 }
